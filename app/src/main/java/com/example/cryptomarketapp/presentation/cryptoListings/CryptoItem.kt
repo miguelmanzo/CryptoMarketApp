@@ -1,4 +1,4 @@
-package com.example.cryptomarketapp.presentation.companyListings
+package com.example.cryptomarketapp.presentation.cryptoListings
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -28,10 +28,10 @@ import com.example.cryptomarketapp.domain.model.CryptoListings
 import java.text.DecimalFormat
 
 @Composable
-fun CompanyItem(
+fun CryptoItem(
     company: CryptoListings,
     modifier: Modifier = Modifier,
-    viewModel: CompanyListingsViewModel = hiltViewModel()
+    viewModel: CryptoListingsViewModel = hiltViewModel()
 ) {
     Surface(
         elevation = 8.dp,
@@ -125,7 +125,7 @@ fun CompanyItem(
                         .size(64.dp)
                         .clickable {
                             viewModel.onEvent(
-                                CompanyListingsEvent.OnFavoriteSelection(
+                                CryptoListingsEvent.OnFavoriteSelection(
                                     company.symbol,
                                     !isFavorite
                                 )

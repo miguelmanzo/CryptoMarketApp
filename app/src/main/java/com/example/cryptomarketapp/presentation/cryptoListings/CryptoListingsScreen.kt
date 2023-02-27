@@ -1,4 +1,4 @@
-package com.example.cryptomarketapp.presentation.companyListings
+package com.example.cryptomarketapp.presentation.cryptoListings
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -24,9 +24,9 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
 @Destination(start = true)
-fun CompanyListingsScreen(
+fun CryptoListingsScreen(
     navigator: DestinationsNavigator,
-    viewModel: CompanyListingsViewModel = hiltViewModel()
+    viewModel: CryptoListingsViewModel = hiltViewModel()
 ) {
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = viewModel.state.isRefreshing)
     val state = viewModel.state
@@ -41,7 +41,7 @@ fun CompanyListingsScreen(
         ) {
             OutlinedTextField(
                 value = state.searchQuery,
-                onValueChange = { viewModel.onEvent(CompanyListingsEvent.OnSearchQueryChange(it)) },
+                onValueChange = { viewModel.onEvent(CryptoListingsEvent.OnSearchQueryChange(it)) },
                 modifier = Modifier
                     .weight(0.8f)
                     .padding(14.dp),
@@ -69,12 +69,12 @@ fun CompanyListingsScreen(
 
         SwipeRefresh(
             state = swipeRefreshState,
-            onRefresh = { viewModel.onEvent(CompanyListingsEvent.Refresh) })
+            onRefresh = { viewModel.onEvent(CryptoListingsEvent.Refresh) })
         {
             LazyColumn(modifier = Modifier.fillMaxSize()) {
                 items(state.companies.size) { i ->
                     val company = state.companies[i]
-                    CompanyItem(
+                    CryptoItem(
                         company = company,
                         modifier = Modifier
                             .padding(10.dp)

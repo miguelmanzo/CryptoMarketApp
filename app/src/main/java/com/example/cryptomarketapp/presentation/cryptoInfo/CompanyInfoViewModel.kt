@@ -1,4 +1,4 @@
-package com.example.cryptomarketapp.presentation.companyInfo
+package com.example.cryptomarketapp.presentation.cryptoInfo
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

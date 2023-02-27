@@ -1,4 +1,4 @@
-package com.example.cryptomarketapp.presentation.companyInfo
+package com.example.cryptomarketapp.presentation.cryptoInfo
 
 import android.graphics.Paint
 import androidx.compose.foundation.Canvas

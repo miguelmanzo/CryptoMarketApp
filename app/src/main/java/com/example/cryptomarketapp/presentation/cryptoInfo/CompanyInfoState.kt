@@ -1,4 +1,4 @@
-package com.example.cryptomarketapp.presentation.companyInfo
+package com.example.cryptomarketapp.presentation.cryptoInfo
 
 import com.example.cryptomarketapp.domain.model.CompanyInfo
 import com.example.cryptomarketapp.domain.model.IntradayInfo
