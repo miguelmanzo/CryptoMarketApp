@@ -27,16 +27,6 @@ import coil.compose.rememberImagePainter
 import com.example.cryptomarketapp.domain.model.CryptoListings
 import java.text.DecimalFormat
 
-//@Preview(
-//    "name" ,
-//"coinGeckoId" ,
-//1 ,
-//2 ,
-//1 ,
-//"high24h" ,
-//1f ,
-//true,
-//)
 @Composable
 fun CompanyItem(
     company: CryptoListings,
@@ -121,7 +111,7 @@ fun CompanyItem(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                val isFavorite =  viewModel.state.favorites.any{ it.name == company.symbol}
+                val isFavorite = viewModel.state.favorites.any { it.name == company.symbol }
                 var tint = if (!isFavorite) {
                     Color.LightGray
                 } else {
@@ -134,7 +124,12 @@ fun CompanyItem(
                     modifier = Modifier
                         .size(64.dp)
                         .clickable {
-                            viewModel.onEvent(CompanyListingsEvent.OnFavoriteSelection( company.symbol, !isFavorite))
+                            viewModel.onEvent(
+                                CompanyListingsEvent.OnFavoriteSelection(
+                                    company.symbol,
+                                    !isFavorite
+                                )
+                            )
                             tint = Color.Yellow
                         },
                     tint = tint

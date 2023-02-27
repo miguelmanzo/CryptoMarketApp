@@ -1,13 +1,10 @@
 package com.example.cryptomarketapp.presentation.companyListings
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cryptomarketapp.data.local.FavoritesListingEntity
-import com.example.cryptomarketapp.domain.model.FavoriteListings
 import com.example.cryptomarketapp.domain.repository.StockRepository
 import com.example.cryptomarketapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -88,7 +85,7 @@ class CompanyListingsViewModel @Inject constructor(
     fun getFavoritesListings() {
         viewModelScope.launch(Dispatchers.IO) {
             val favorites = repository.getFavoritesListings()
-            state = state.copy(favorites = favorites )
+            state = state.copy(favorites = favorites)
         }
     }
 }

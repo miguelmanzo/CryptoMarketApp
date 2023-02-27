@@ -13,5 +13,5 @@ data class CryptoListingEntity(
     val high24h: Double?,
     val low24h: Double,
     val priceChangePercentage24: Double,
-    @PrimaryKey val id : Int? = null
+    @PrimaryKey val id: Int? = null
 )

@@ -1,4 +1,5 @@
 package com.example.cryptomarketapp.data.local
+
 import androidx.room.*
 
 @Dao
@@ -20,7 +21,7 @@ interface StockDao {
             UPPER(:query) == symbol
         """
     )
-    suspend fun searchCompanyListing(query: String) : List<CompanyListingEntity>
+    suspend fun searchCompanyListing(query: String): List<CompanyListingEntity>
 
     @Query(
         """
@@ -30,7 +31,7 @@ interface StockDao {
             UPPER(:query) == name
         """
     )
-    suspend fun searchCryptoListing(query: String) : List<CryptoListingEntity>
+    suspend fun searchCryptoListing(query: String): List<CryptoListingEntity>
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -50,7 +51,7 @@ interface StockDao {
             FROM FavoritesListingEntity
         """
     )
-    fun getFavoritesListing() : List<FavoritesListingEntity>
+    fun getFavoritesListing(): List<FavoritesListingEntity>
 
     @Delete
     fun removeFavorite(favoritesListingEntity: FavoritesListingEntity) // no need of suspend

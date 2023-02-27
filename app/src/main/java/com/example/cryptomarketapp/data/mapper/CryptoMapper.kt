@@ -14,7 +14,7 @@ fun CryptoListingEntity.toCryptoListing(): CryptoListings {
         //TODO Change this
         high24h = high24h ?: 1.0,
         low24h = low24h,
-        priceChangePercentage24 =priceChangePercentage24
+        priceChangePercentage24 = priceChangePercentage24
 
     )
 }

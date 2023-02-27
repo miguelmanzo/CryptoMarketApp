@@ -15,7 +15,7 @@ fun IntradayInfoDto.toIntradayInfo(): IntradayInfo {
     val localDateTime = LocalDateTime.parse(timestamp, formatter)
     return IntradayInfo(
         date = localDateTime,
-        close =  close
+        close = close
     )
 }
 

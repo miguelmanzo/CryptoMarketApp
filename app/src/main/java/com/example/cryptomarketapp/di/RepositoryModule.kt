@@ -4,7 +4,6 @@ import com.example.cryptomarketapp.data.csv.CSVParser
 import com.example.cryptomarketapp.data.csv.CompanyListingParser
 import com.example.cryptomarketapp.data.csv.IntradayInfoParser
 import com.example.cryptomarketapp.data.repository.StockRepositoryImpl
-import com.example.cryptomarketapp.domain.model.CompanyInfo
 import com.example.cryptomarketapp.domain.model.CompanyListing
 import com.example.cryptomarketapp.domain.model.IntradayInfo
 import com.example.cryptomarketapp.domain.repository.StockRepository
@@ -20,12 +19,12 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindCompanyListingsParser(
-     companyListingParser: CompanyListingParser
+        companyListingParser: CompanyListingParser
     ): CSVParser<CompanyListing>
 
     @Binds
     abstract fun bindIntradayInfoParser(
-     intradayInfoParser: IntradayInfoParser
+        intradayInfoParser: IntradayInfoParser
     ): CSVParser<IntradayInfo>
 
 
@@ -33,5 +32,5 @@ abstract class RepositoryModule {
     @Singleton
     abstract fun bindStockRepository(
         stockRepositoryImpl: StockRepositoryImpl
-    ) : StockRepository
+    ): StockRepository
 }

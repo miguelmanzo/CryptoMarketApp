@@ -2,7 +2,6 @@ package com.example.cryptomarketapp.data.csv
 
 import com.example.cryptomarketapp.data.mapper.toIntradayInfo
 import com.example.cryptomarketapp.data.remote.dto.IntradayInfoDto
-import com.example.cryptomarketapp.domain.model.CompanyListing
 import com.example.cryptomarketapp.domain.model.IntradayInfo
 import com.opencsv.CSVReader
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +13,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class IntradayInfoParser @Inject constructor(): CSVParser<IntradayInfo> {
+class IntradayInfoParser @Inject constructor() : CSVParser<IntradayInfo> {
 
     override suspend fun parse(stream: InputStream): List<IntradayInfo> {
         val csvReader = CSVReader(InputStreamReader(stream))

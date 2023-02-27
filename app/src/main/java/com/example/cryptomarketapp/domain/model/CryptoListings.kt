@@ -9,4 +9,4 @@ data class CryptoListings(
     val high24h: Double?,
     val low24h: Double,
     val priceChangePercentage24: Double
-    )
+)
