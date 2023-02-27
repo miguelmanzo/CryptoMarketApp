@@ -1,9 +1,11 @@
 package com.example.cryptomarketapp.presentation.companyListings
 
-import com.example.cryptomarketapp.domain.model.CompanyListing
+import com.example.cryptomarketapp.domain.model.CryptoListings
+import com.example.cryptomarketapp.domain.model.FavoriteListings
 
 data class CompanyListingState(
-    val companies : List<CompanyListing> = emptyList(),
+    val companies : List<CryptoListings> = emptyList(),
+    val favorites : List<FavoriteListings> = emptyList(),
     val isLoading : Boolean = false,
     val isRefreshing : Boolean = false,
     val searchQuery : String = ""
