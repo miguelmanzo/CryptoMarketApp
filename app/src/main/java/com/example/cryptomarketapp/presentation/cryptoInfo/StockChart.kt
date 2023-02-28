@@ -1,4 +1,4 @@
-package com.example.cryptomarketapp.presentation.companyInfo
+package com.example.cryptomarketapp.presentation.cryptoInfo
 
 import android.graphics.Paint
 import androidx.compose.foundation.Canvas
@@ -19,7 +19,7 @@ fun StockChart(
     infos: List<IntradayInfo> = emptyList(),
     modifier: Modifier = Modifier,
     graphColor: Color = Color.Blue
-){
+) {
     val spacing = 100f
     val transparentGraphColor = remember {
         graphColor.copy(alpha = 0.5f)
@@ -66,7 +66,7 @@ fun StockChart(
         var lastX = 0f
         val strokePath = Path().apply {
             val height = size.height
-            for(i in infos.indices) {
+            for (i in infos.indices) {
                 val info = infos[i]
                 val nextInfo = infos.getOrNull(i + 1) ?: infos.last()
                 val leftRatio = (info.close - lowerValue) / (upperValue - lowerValue)
@@ -76,7 +76,7 @@ fun StockChart(
                 val y1 = height - spacing - (leftRatio * height).toFloat()
                 val x2 = spacing + (i + 1) * spacePerHour
                 val y2 = height - spacing - (rightRatio * height).toFloat()
-                if(i == 0) {
+                if (i == 0) {
                     moveTo(x1, y1)
                 }
                 lastX = (x1 + x2) / 2f

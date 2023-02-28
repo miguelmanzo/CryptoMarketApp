@@ -18,7 +18,7 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
-    fun provideStockApi(): StockApi{
+    fun provideStockApi(): StockApi {
         return Retrofit.Builder()
             .baseUrl(StockApi.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
@@ -28,7 +28,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideStockDatabase(app: Application) : StockDataClass {
+    fun provideStockDatabase(app: Application): StockDataClass {
         return Room.databaseBuilder(
             app,
             StockDataClass::class.java,

@@ -8,17 +8,17 @@ interface StockRepository {
 
     //TODO Implement later
     suspend fun getCompanyListings(
-            fetchFromRemote: Boolean,
-            query: String
-    ) :  Flow<Resource<List<CompanyListing>>>
+        fetchFromRemote: Boolean,
+        query: String
+    ): Flow<Resource<List<CompanyListing>>>
 
     suspend fun getIntradayInfo(
-        symbol : String
-    ) : Resource<List<IntradayInfo>>
+        symbol: String
+    ): Resource<List<IntradayInfo>>
 
     suspend fun getCompanyInfo(
-        symbol : String
-    ) : Resource<CompanyInfo>
+        symbol: String
+    ): Resource<CompanyInfo>
 
     suspend fun getCryptoListings(
         fetchFromRemote: Boolean,

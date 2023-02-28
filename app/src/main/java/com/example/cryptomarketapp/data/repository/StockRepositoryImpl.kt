@@ -20,8 +20,8 @@ class StockRepositoryImpl @Inject constructor(
     private val api: StockApi,
     private val db: StockDataClass,
     private val companyListingParser: CSVParser<CompanyListing>,
-    private val intradayInfoParser:  CSVParser<IntradayInfo>,
-) : StockRepository{
+    private val intradayInfoParser: CSVParser<IntradayInfo>,
+) : StockRepository {
 
     private val dao = db.dao
 
@@ -32,11 +32,11 @@ class StockRepositoryImpl @Inject constructor(
         return flow {
             emit(Resource.Loading(true))
             val localListing = dao.searchCompanyListing(query)
-            emit(Resource.Success( data = localListing.map { it.toCompanyListing() }))
+            emit(Resource.Success(data = localListing.map { it.toCompanyListing() }))
 
             val isDbEmpty = localListing.isEmpty() && query.isBlank()
             val shouldJustLoadFromCache = !isDbEmpty && !fetchFromRemote
-            if (shouldJustLoadFromCache){
+            if (shouldJustLoadFromCache) {
                 emit(Resource.Loading(false))
                 return@flow
             }
@@ -75,12 +75,12 @@ class StockRepositoryImpl @Inject constructor(
             val response = api.getIntradayInfo(symbol)
             val result = intradayInfoParser.parse(response.byteStream())
             Resource.Success(result)
-        } catch (e : IOException) {
+        } catch (e: IOException) {
             e.printStackTrace()
             Resource.Error(
                 message = "Couldn't load intraday info"
             )
-        } catch (e : HttpException) {
+        } catch (e: HttpException) {
             e.printStackTrace()
             Resource.Error(
                 message = "Couldn't load intraday info"
@@ -96,11 +96,11 @@ class StockRepositoryImpl @Inject constructor(
         return flow {
             emit(Resource.Loading(true))
             val localListing = dao.searchCryptoListing(query)
-            emit(Resource.Success( data = localListing.map { it.toCryptoListing() }))
+            emit(Resource.Success(data = localListing.map { it.toCryptoListing() }))
 
             val isDbEmpty = localListing.isEmpty() && query.isBlank()
             val shouldJustLoadFromCache = !isDbEmpty && !fetchFromRemote
-            if (shouldJustLoadFromCache){
+            if (shouldJustLoadFromCache) {
                 emit(Resource.Loading(false))
                 return@flow
             }
@@ -121,7 +121,7 @@ class StockRepositoryImpl @Inject constructor(
             remoteListings?.let { listings ->
                 dao.clearCryptoListings()
                 dao.insertCryptoListings(
-                   listings
+                    listings
                 )
                 emit(Resource.Success(
                     data = dao.searchCryptoListing("").map { it.toCryptoListing() }
@@ -131,7 +131,7 @@ class StockRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun addCryptoToFavorites ( isFavorite: String) {
+    override suspend fun addCryptoToFavorites(isFavorite: String) {
         dao.insertFavorite(
             FavoritesListingEntity(
                 isFavorite
@@ -148,7 +148,7 @@ class StockRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getFavoritesListings(
-    ):  List<FavoriteListings> {
+    ): List<FavoriteListings> {
         return dao.getFavoritesListing().map { it.toFavoriteListing() }
     }
 
@@ -157,12 +157,12 @@ class StockRepositoryImpl @Inject constructor(
         return try {
             val response = api.getCompanyInfo(symbol)
             Resource.Success(response.toCompanyInfo())
-        } catch (e : IOException) {
+        } catch (e: IOException) {
             e.printStackTrace()
             Resource.Error(
                 message = "Couldn't load company info"
             )
-        } catch (e : HttpException) {
+        } catch (e: HttpException) {
             e.printStackTrace()
             Resource.Error(
                 message = "Couldn't load company info"

@@ -1,4 +1,4 @@
-package com.example.cryptomarketapp.presentation.companyInfo
+package com.example.cryptomarketapp.presentation.cryptoInfo
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,19 +24,19 @@ class CompanyInfoViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val symbol  = savedStateHandle.get<String>("symbol") ?: return@launch
+            val symbol = savedStateHandle.get<String>("symbol") ?: return@launch
             state = state.copy(isLoading = true)
-            val companyInfoResult = async {  repository.getCompanyInfo(symbol) }
-            val intradayInfoResult = async {  repository.getIntradayInfo(symbol) }
-            when (val result = companyInfoResult.await()){
+            val companyInfoResult = async { repository.getCompanyInfo(symbol) }
+            val intradayInfoResult = async { repository.getIntradayInfo(symbol) }
+            when (val result = companyInfoResult.await()) {
                 is Resource.Success -> {
                     state = state.copy(
-                     company = result.data,
-                     isLoading = false,
-                     error = null
+                        company = result.data,
+                        isLoading = false,
+                        error = null
                     )
                 }
-                is Resource.Error ->{
+                is Resource.Error -> {
                     state = state.copy(
                         isLoading = false,
                         error = result.message,
@@ -45,15 +45,15 @@ class CompanyInfoViewModel @Inject constructor(
                 }
                 else -> Unit
             }
-            when (val result = intradayInfoResult.await()){
+            when (val result = intradayInfoResult.await()) {
                 is Resource.Success -> {
                     state = state.copy(
-                     stockInfos = result.data ?: emptyList(),
-                     isLoading = false,
-                     error = null
+                        stockInfos = result.data ?: emptyList(),
+                        isLoading = false,
+                        error = null
                     )
                 }
-                is Resource.Error ->{
+                is Resource.Error -> {
                     state = state.copy(
                         isLoading = false,
                         error = result.message,

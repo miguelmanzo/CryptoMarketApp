@@ -1,13 +1,11 @@
-package com.example.cryptomarketapp.presentation.companyListings
+package com.example.cryptomarketapp.presentation.cryptoListings
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cryptomarketapp.data.local.FavoritesListingEntity
-import com.example.cryptomarketapp.domain.model.FavoriteListings
+import com.example.cryptomarketapp.domain.model.CryptoListings
 import com.example.cryptomarketapp.domain.repository.StockRepository
 import com.example.cryptomarketapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,11 +16,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CompanyListingsViewModel @Inject constructor(
+class CryptoListingsViewModel @Inject constructor(
     private val repository: StockRepository,
 ) : ViewModel() {
 
-    var state by mutableStateOf(CompanyListingState())
+    var state by mutableStateOf(CryptoListingState())
 
     private var searchJob: Job? = null
 
@@ -30,12 +28,20 @@ class CompanyListingsViewModel @Inject constructor(
         getCryptoListings()
     }
 
-    fun onEvent(event: CompanyListingsEvent) {
+    fun onEvent(event: CryptoListingsEvent) {
         when (event) {
-            is CompanyListingsEvent.Refresh -> {
+            is CryptoListingsEvent.Refresh -> {
                 getCryptoListings(fetchFromRemote = true)
             }
-            is CompanyListingsEvent.OnSearchQueryChange -> {
+            is CryptoListingsEvent.FavoriteCompaniesToggle -> {
+                state = state.copy( favoriteCompaniesFilterOn = event.isChecked)
+                searchJob?.cancel()
+                searchJob = viewModelScope.launch {
+                    delay(500L)
+                    getCryptoListings()
+                }
+            }
+            is CryptoListingsEvent.OnSearchQueryChange -> {
                 state = state.copy(searchQuery = event.query)
                 searchJob?.cancel()
                 searchJob = viewModelScope.launch {
@@ -43,7 +49,7 @@ class CompanyListingsViewModel @Inject constructor(
                     getCryptoListings()
                 }
             }
-            is CompanyListingsEvent.OnFavoriteSelection -> {
+            is CryptoListingsEvent.OnFavoriteSelection -> {
                 searchJob?.cancel()
                 viewModelScope.launch(Dispatchers.IO) {
                     if (event.isFavorite) {
@@ -58,7 +64,7 @@ class CompanyListingsViewModel @Inject constructor(
         }
     }
 
-    fun getCryptoListings(
+    private fun getCryptoListings(
         query: String = state.searchQuery.lowercase(),
         fetchFromRemote: Boolean = false
     ) {
@@ -85,10 +91,14 @@ class CompanyListingsViewModel @Inject constructor(
         }
     }
 
-    fun getFavoritesListings() {
+    private fun getFavoritesListings() {
         viewModelScope.launch(Dispatchers.IO) {
             val favorites = repository.getFavoritesListings()
-            state = state.copy(favorites = favorites )
+            state = state.copy(favorites = favorites)
         }
+    }
+
+    fun getFavoriteCompanies(): List<CryptoListings> {
+        return state.companies.filter { company -> state.favorites.any { company.symbol == it.name } }
     }
 }
