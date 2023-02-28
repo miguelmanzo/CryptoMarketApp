@@ -8,5 +8,6 @@ data class CryptoListingState(
     val favorites: List<FavoriteListings> = emptyList(),
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
+    var favoriteCompaniesFilterOn: Boolean = false,
     val searchQuery: String = ""
 )

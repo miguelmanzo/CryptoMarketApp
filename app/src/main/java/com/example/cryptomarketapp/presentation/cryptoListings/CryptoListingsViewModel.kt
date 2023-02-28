@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.cryptomarketapp.domain.model.CryptoListings
 import com.example.cryptomarketapp.domain.repository.StockRepository
 import com.example.cryptomarketapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,6 +33,14 @@ class CryptoListingsViewModel @Inject constructor(
             is CryptoListingsEvent.Refresh -> {
                 getCryptoListings(fetchFromRemote = true)
             }
+            is CryptoListingsEvent.FavoriteCompaniesToggle -> {
+                state = state.copy( favoriteCompaniesFilterOn = event.isChecked)
+                searchJob?.cancel()
+                searchJob = viewModelScope.launch {
+                    delay(500L)
+                    getCryptoListings()
+                }
+            }
             is CryptoListingsEvent.OnSearchQueryChange -> {
                 state = state.copy(searchQuery = event.query)
                 searchJob?.cancel()
@@ -55,7 +64,7 @@ class CryptoListingsViewModel @Inject constructor(
         }
     }
 
-    fun getCryptoListings(
+    private fun getCryptoListings(
         query: String = state.searchQuery.lowercase(),
         fetchFromRemote: Boolean = false
     ) {
@@ -82,10 +91,14 @@ class CryptoListingsViewModel @Inject constructor(
         }
     }
 
-    fun getFavoritesListings() {
+    private fun getFavoritesListings() {
         viewModelScope.launch(Dispatchers.IO) {
             val favorites = repository.getFavoritesListings()
             state = state.copy(favorites = favorites)
         }
+    }
+
+    fun getFavoriteCompanies(): List<CryptoListings> {
+        return state.companies.filter { company -> state.favorites.any { company.symbol == it.name } }
     }
 }

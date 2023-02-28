@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.cryptomarketapp.domain.model.CryptoListings
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
@@ -62,8 +63,13 @@ fun CryptoListingsScreen(
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() } // This is mandatory
                     ) {
+                        viewModel.onEvent(CryptoListingsEvent.FavoriteCompaniesToggle(!state.favoriteCompaniesFilterOn))
                     },
-                tint = Color.LightGray
+                tint = if (state.favoriteCompaniesFilterOn) {
+                    Color.Yellow
+                } else {
+                    Color.LightGray
+                }
             )
         }
 
@@ -72,10 +78,18 @@ fun CryptoListingsScreen(
             onRefresh = { viewModel.onEvent(CryptoListingsEvent.Refresh) })
         {
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(state.companies.size) { i ->
-                    val company = state.companies[i]
+
+                val companies: List<CryptoListings> =
+                    if (state.favoriteCompaniesFilterOn) {
+                        viewModel.getFavoriteCompanies()
+                    } else {
+                        state.companies
+                    }
+
+                items(companies.size) { i ->
+
                     CryptoItem(
-                        company = company,
+                        company = companies[i],
                         modifier = Modifier
                             .padding(10.dp)
                             .fillMaxSize(),
